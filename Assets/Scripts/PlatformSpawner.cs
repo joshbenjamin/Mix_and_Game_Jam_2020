@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject platform;
+    public GameObject platformGap;
 
     private float gapBetween = 3f;
 
@@ -33,14 +34,22 @@ public class PlatformSpawner : MonoBehaviour
         Vector3 instantiationPoint = InstantiationPoint();
 
         GameObject platLeft = Instantiate(platform, instantiationPoint, Quaternion.identity, this.transform);
-        GameObject platRight = Instantiate(
+
+        GameObject platMid = Instantiate(
+            platformGap,
+            (instantiationPoint + new Vector3(platform.transform.localScale.x - 1f, 0f, 0f)),
+            Quaternion.identity,
+            this.transform
+        );
+        
+            GameObject platRight = Instantiate(
             platform, 
-            (instantiationPoint + new Vector3(gapBetween, 0f, 0f) + new Vector3(platform.transform.localScale.x, 0, 0)), 
+            (instantiationPoint + new Vector3(gapBetween + platform.transform.localScale.x, 0f, 0f)), 
             Quaternion.identity, 
             this.transform
         );
 
-        _queuePlatforms.Enqueue((new GameObject[] { platLeft, platRight }));
+        _queuePlatforms.Enqueue((new GameObject[] { platLeft, platMid, platRight }));
     }
 
     Vector3 InstantiationPoint()
@@ -63,11 +72,11 @@ public class PlatformSpawner : MonoBehaviour
 
     public void Shift(float x, float y)
     {
-        GameObject[] pair = FirstQueue();
+        GameObject[] group = FirstQueue();
 
-        if (pair != null)
+        if (group != null)
         {
-            foreach (GameObject platform in pair)
+            foreach (GameObject platform in group)
             {
                 platform.GetComponent<PlatformSizer>().Shift(x, y);
             }

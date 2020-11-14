@@ -31,6 +31,47 @@ public class ShootController : MonoBehaviour
         Vector3 point = WorldPoint(mouseClickPosition.x, mouseClickPosition.y);
 
         Debug.DrawLine(fromPosition, point, Color.white, 2.5f);
+
+        DrawRaycast();
+    }
+
+    public void DrawRaycast()
+    {
+        Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * currentShootAngle), Mathf.Sin(Mathf.Deg2Rad * currentShootAngle));
+
+        //Physics2D.Raycast()
+        RaycastHit2D hit = Physics2D.Raycast(new Vector3(rotationPoint.transform.position.x, rotationPoint.transform.position.y, 0), direction);
+
+        Debug.DrawRay(player.position, direction, Color.white, 5f);
+
+        if (hit.collider != null)
+        {
+            switch (hit.collider.gameObject.tag)
+            {
+                case "Platform":
+                    Debug.Log("Hit platform");
+                    break;
+
+                case "PlatformGap":
+                    Debug.Log("Found gap");
+                    Vector2 startPoint = hit.point;
+
+                    break;
+
+                default:
+                    Debug.Log("Hit something: " + hit.collider.gameObject.name);
+                    break;
+            }
+        }
+
+        /*
+        RaycastHit2D hit;
+        Debug.DrawRay(transform.position, , 0), Color.blue);
+        if (Physics2D.Raycast(player.position, new Vector3(Mathf.Cos(currentShootAngle), Mathf.Sin(currentShootAngle), 0), out hit))
+        {
+            Debug.Log("Has been hit: " + hit.collider.gameObject.name);
+        }
+        */
     }
 
     private Vector3 WorldPoint(float x, float y)
@@ -40,7 +81,7 @@ public class ShootController : MonoBehaviour
 
     void RotateAimLine()
     {
-        Vector3 fromPosition = player.position;
+        Vector3 fromPosition = rotationPoint.transform.position;
         Vector3 toPosition = WorldPoint(Input.mousePosition.x, Input.mousePosition.y);
 
         Vector2 diference = toPosition - fromPosition;

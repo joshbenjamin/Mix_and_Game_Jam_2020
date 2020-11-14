@@ -22,7 +22,7 @@ public class PlatformSizer : MonoBehaviour
         currentScale = shapeRect.localScale;
         currentPos = shapeRect.localPosition;
 
-        Debug.Log(CameraWidth());
+        Debug.Log("I'm going back to " + CameraWidth());
     }
 
     // Update is called once per frame
