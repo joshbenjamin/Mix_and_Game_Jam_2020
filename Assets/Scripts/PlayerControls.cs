@@ -6,6 +6,7 @@ public class PlayerControls : MonoBehaviour
 {
     public PlatformSpawner _platformSpawner;
     private ShootController shootController;
+    private HealthController healthController;
 
     public Transform player;
 
@@ -17,6 +18,7 @@ public class PlayerControls : MonoBehaviour
         player = GetComponent<Transform>();
 
         shootController = GetComponent<ShootController>();
+        healthController = GetComponent<HealthController>();
     }
 
     // Update is called once per frame
@@ -90,9 +92,12 @@ public class PlayerControls : MonoBehaviour
         {
             shootController.ShootBullet();
         }
-
-
         #endregion
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            healthController.TakeDamage(10);
+        }
     }
 
     void Movement()

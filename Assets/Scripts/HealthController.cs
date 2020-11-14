@@ -1,0 +1,30 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HealthController : MonoBehaviour
+{
+    private float currentHealth = 100f;
+    private float maxHealth = 100f;
+
+    private float defenseMultiplier = 0.8f;
+
+    public HealthBarController healthBarController;
+
+    public void TakeDamage(float dmg)
+    {
+        currentHealth -= dmg * defenseMultiplier;
+
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
+
+        healthBarController.ScaleBar(currentHealth);
+    }
+
+    void Die()
+    {
+        Destroy(this.gameObject);
+    }
+}

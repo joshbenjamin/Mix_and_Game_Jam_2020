@@ -7,8 +7,8 @@ public class PowerBarController : MonoBehaviour
     public Transform bar;
     public Transform barSprite;
 
-    private Color barColorRed;
-    private Color barColorRedFlash;
+    private Color barColorBase;
+    private Color barColorBaseFlash;
     private Color activeColor;
 
     private float currentTime = 0f;
@@ -17,10 +17,10 @@ public class PowerBarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        barColorRed = Color.red;
-        barColorRedFlash = Color.white;
-        barColorRedFlash.a = 0.5f;
-        activeColor = barColorRed;
+        barColorBase = Color.blue;
+        barColorBaseFlash = Color.white;
+        barColorBaseFlash.a = 0.5f;
+        activeColor = barColorBase;
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class PowerBarController : MonoBehaviour
 
         if (result < 0.8f)
         {
-            activeColor = barColorRed;
+            activeColor = barColorBase;
         }
 
         bar.localScale = new Vector3(result, 1, 1);
@@ -56,22 +56,11 @@ public class PowerBarController : MonoBehaviour
     {
         if(Mathf.Round(currentTime * 100) % 2 == 0)
         {
-            activeColor = barColorRedFlash;
+            activeColor = barColorBaseFlash;
         }
         else
         {
-            activeColor = barColorRed;
+            activeColor = barColorBase;
         }
-
-        /*
-        if (activeColor == barColorRed)
-        {
-            activeColor = barColorRedFlash;
-        }
-        else
-        {
-            activeColor = barColorRed;
-        }
-        */
     }
 }
