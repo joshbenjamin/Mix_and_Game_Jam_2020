@@ -199,4 +199,9 @@ public class ShootController : MonoBehaviour
         enemySpawner.DestroyEnemy(enemy);
         Destroy(bullet.gameObject);
     }
+
+    public int GetScore()
+    {
+        return score;
+    }
 }

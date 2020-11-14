@@ -35,12 +35,15 @@ public class BulletController : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             shootController.DestroyBullet(collision.gameObject);
-            Debug.Log("Hit a platform");
         }
         else if (collision.gameObject.tag == "Enemy")
         {
             shootController.DestroyEnemy(this.gameObject, collision.gameObject);
             //Destroy(collision.gameObject);
+        }
+        else if(collision.gameObject.tag == "EnemyBullet")
+        {
+            collision.gameObject.GetComponent<EnemyBulletController>().Die();
         }
     }
 

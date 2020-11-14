@@ -25,6 +25,14 @@ public class HealthController : MonoBehaviour
 
     void Die()
     {
+        int score = GetComponent<ShootController>().GetScore();
+
+        if (score > PlayerPrefs.GetInt("HighScore"))
+        {
+            Debug.Log("New high score: " + score);
+            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.Save();
+        }
         Destroy(this.gameObject);
     }
 }

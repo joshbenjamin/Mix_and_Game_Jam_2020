@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\TextController.cs" />
     <Compile Include="Assets\Scripts\HealthBarController.cs" />
     <Compile Include="Assets\Scripts\HealthController.cs" />
+    <Compile Include="Assets\Scripts\EnemyBulletController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
