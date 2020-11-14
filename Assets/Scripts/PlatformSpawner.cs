@@ -54,7 +54,10 @@ public class PlatformSpawner : MonoBehaviour
 
     Vector3 InstantiationPoint()
     {
-        return new Vector3(-5, 2, 0);
+        float randX = Random.Range(-10, 5);
+        float randY = Random.Range(-3, 5);
+
+        return new Vector3(randX, randY, 0);
     }
 
     public GameObject[] FirstQueue()

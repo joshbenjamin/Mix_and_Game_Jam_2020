@@ -10,6 +10,7 @@ public class ShootController : MonoBehaviour
     public GameObject rotationPoint;
 
     private float currentShootAngle;
+    private float transitionSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class ShootController : MonoBehaviour
 
         player = GetComponent<Transform>();
         currentShootAngle = 0f;
+        transitionSpeed = 15f;
     }
 
     // Update is called once per frame
@@ -55,6 +57,11 @@ public class ShootController : MonoBehaviour
                 case "PlatformGap":
                     Debug.Log("Found gap");
                     Vector2 startPoint = hit.point;
+                    Debug.Log("Starts at: " + startPoint + "\n" + 
+                              "Angle at: " + currentShootAngle);
+
+                    float distance = Vector2.Distance(player.position, startPoint);
+                    LaunchPlayer(startPoint, distance);
 
                     break;
 
@@ -106,6 +113,77 @@ public class ShootController : MonoBehaviour
         else
         {
             return f;
+        }
+    }
+
+    void LaunchPlayer(Vector2 toPosition, float distanceMultiplier)
+    {
+        //player.GetComponentInParent<Rigidbody2D>().gravityScale;
+        //player.position = Vector3.Lerp(player.position, toPosition, Time.deltaTime * transitionSpeed * distanceMultiplier);
+
+        //float step = transitionSpeed * Time.deltaTime;
+        //player.position = Vector3.MoveTowards(player.position, toPosition, step);
+
+
+        //player.position = toPosition;
+
+        /*
+        bool notThereYet = true;
+        while (notThereYet)
+        {
+            float step = transitionSpeed * Time.deltaTime;
+            player.position = Vector3.MoveTowards(player.position, toPosition, step);
+
+            if (CloseTo(player.position, toPosition))
+            {
+                notThereYet = false;
+            }
+        }
+        */
+
+        //StartCoroutine(MoveCoroutine(toPosition));
+        float extraDist = 3f;
+
+        Vector3 newTo = new Vector3(toPosition.x + Mathf.Cos(currentShootAngle * Mathf.Deg2Rad) * extraDist,
+            toPosition.y + Mathf.Sin(currentShootAngle * Mathf.Deg2Rad) * extraDist,
+            0);
+        StartCoroutine(moveObject(newTo, 0.8f));
+        
+    }
+
+    bool CloseTo(Vector3 a, Vector3 b)
+    {
+        float minDist = 0.5f;
+        float dist = Vector3.Distance(a, b);
+
+        if (dist <= minDist)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    IEnumerator MoveCoroutine(Vector3 toPosition)
+    {
+        while (!CloseTo(player.position, toPosition))
+        {
+            Vector3.Lerp(player.position, toPosition, transitionSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator moveObject(Vector3 toPosition, float distanceMultiplier)
+    {
+        float totalMovementTime = 5f * distanceMultiplier; //the amount of time you want the movement to take
+        float currentMovementTime = 0f;//The amount of time that has passed
+        while (!CloseTo(player.position, toPosition))
+        {
+            currentMovementTime += Time.deltaTime;
+            transform.localPosition = Vector3.Lerp(player.position, toPosition, currentMovementTime / totalMovementTime);
+            yield return null;
         }
     }
 }
