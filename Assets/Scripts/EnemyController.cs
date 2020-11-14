@@ -18,8 +18,11 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         startPosition = enemy.position;
-        moveRight = true;
-        moveUp = true;
+
+        int horiz = Random.Range(0, 2);
+        int vert = Random.Range(0, 2);
+        moveRight = horiz == 1 ? true : false;
+        moveUp = vert == 1 ? true : false;
     }
 
     // Update is called once per frame

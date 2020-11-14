@@ -13,12 +13,16 @@ public class ShootController : MonoBehaviour
     private List<GameObject> bullets;
     private float bulletCurrentCooldown = 0f;
     private float bulletCooldownTime = 10f;
-    private float cooldownMultiplier = 2f;
+    private float cooldownMultiplier = 4f;
 
     private float currentShootAngle;
     private float transitionSpeed;
 
     public EnemySpawner enemySpawner;
+    private int score = 0;
+    public TextController textController;
+
+    public PowerBarController barController;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +46,8 @@ public class ShootController : MonoBehaviour
         {
             bulletCurrentCooldown = 0f;
         }
+
+        barController.ScaleBar(bulletCurrentCooldown, bulletCooldownTime);
     }
 
     public void DebugDrawLine(Vector3 fromPosition, Vector2 mouseClickPosition)
@@ -187,6 +193,9 @@ public class ShootController : MonoBehaviour
 
     public void DestroyEnemy(GameObject bullet, GameObject enemy)
     {
+        score += 1;
+        textController.SetScore(score);
+
         enemySpawner.DestroyEnemy(enemy);
         Destroy(bullet.gameObject);
     }
