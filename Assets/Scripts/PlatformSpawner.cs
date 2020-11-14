@@ -14,12 +14,18 @@ public class PlatformSpawner : MonoBehaviour
     void Start()
     {
         _queuePlatforms = new Queue<GameObject[]>();
+        SpawnPlatform();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
+        if (_queuePlatforms.Count == 0)
+        {
+            SpawnPlatform();
+        }
+        */
     }
 
     public void SpawnPlatform()
@@ -39,7 +45,7 @@ public class PlatformSpawner : MonoBehaviour
 
     Vector3 InstantiationPoint()
     {
-        return new Vector3(-3, 0, 0);
+        return new Vector3(-5, 2, 0);
     }
 
     public GameObject[] FirstQueue()

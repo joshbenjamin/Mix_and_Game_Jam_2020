@@ -59,9 +59,9 @@
     <UnityVersion>2020.1.0f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\PlatformSizer.cs" />
     <Compile Include="Assets\Scripts\PlatformSpawner.cs" />
-    <Compile Include="Assets\Scripts\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\PlatformContainer.cs" />
   </ItemGroup>
   <ItemGroup>

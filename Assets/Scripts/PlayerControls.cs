@@ -6,21 +6,26 @@ public class PlayerControls : MonoBehaviour
 {
     public PlatformSpawner _platformSpawner;
 
+    public Transform player;
+
+    private float movementMultiple = 4f;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckControls();
+        Movement();
     }
 
     void CheckControls()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.RightAlt))
         {
             _platformSpawner.SpawnPlatform();
         }
@@ -58,11 +63,19 @@ public class PlayerControls : MonoBehaviour
             _platformSpawner.Shift(0, 1);
             //sizer.Shift(0, 1);
         }
+        #endregion
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.RightControl))
         {
             _platformSpawner.DeleteFirst();
         }
-        #endregion
+        
+    }
+
+    void Movement()
+    {
+        float xMovement = Input.GetAxis("Horizontal");
+
+        player.localPosition = new Vector3((player.localPosition.x + (xMovement * movementMultiple * Time.deltaTime)), player.localPosition.y, 0);
     }
 }
