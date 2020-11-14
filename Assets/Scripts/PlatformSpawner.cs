@@ -63,9 +63,14 @@ public class PlatformSpawner : MonoBehaviour
 
     public void Shift(float x, float y)
     {
-        foreach (GameObject platform in FirstQueue())
+        GameObject[] pair = FirstQueue();
+
+        if (pair != null)
         {
-            platform.GetComponent<PlatformSizer>().Shift(x, y);
+            foreach (GameObject platform in pair)
+            {
+                platform.GetComponent<PlatformSizer>().Shift(x, y);
+            }
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
     public PlatformSpawner _platformSpawner;
+    private ShootController shootController;
 
     public Transform player;
 
@@ -14,6 +15,8 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         player = GetComponent<Transform>();
+
+        shootController = GetComponent<ShootController>();
     }
 
     // Update is called once per frame
@@ -25,10 +28,18 @@ public class PlayerControls : MonoBehaviour
 
     void CheckControls()
     {
+        #region Platform Control
+        #region Creation/Deletion
         if (Input.GetKeyDown(KeyCode.RightAlt))
         {
             _platformSpawner.SpawnPlatform();
         }
+
+        if (Input.GetKeyDown(KeyCode.RightControl))
+        {
+            _platformSpawner.DeleteFirst();
+        }
+        #endregion
 
         #region Arrow Keys
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -64,12 +75,16 @@ public class PlayerControls : MonoBehaviour
             //sizer.Shift(0, 1);
         }
         #endregion
+        #endregion
 
-        if (Input.GetKeyDown(KeyCode.RightControl))
+        #region Mouse
+        if (Input.GetMouseButtonDown(0))
         {
-            _platformSpawner.DeleteFirst();
+            Vector2 mouseClickPosition = Input.mousePosition;
+
+            shootController.DebugDrawLine(player.position, mouseClickPosition);
         }
-        
+        #endregion
     }
 
     void Movement()
