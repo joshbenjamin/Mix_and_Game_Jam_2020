@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\PlatformSpawner.cs" />
     <Compile Include="Assets\Scripts\PlatformContainer.cs" />
     <Compile Include="Assets\Scripts\ShootController.cs" />
+    <Compile Include="Assets\Scripts\BulletController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

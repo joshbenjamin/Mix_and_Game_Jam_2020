@@ -9,6 +9,12 @@ public class ShootController : MonoBehaviour
     private Transform player;
     public GameObject rotationPoint;
 
+    public GameObject bullet;
+    private List<GameObject> bullets;
+    private float bulletCurrentCooldown = 0f;
+    private float bulletCooldownTime = 10f;
+    private float cooldownMultiplier = 2f;
+
     private float currentShootAngle;
     private float transitionSpeed;
 
@@ -20,12 +26,20 @@ public class ShootController : MonoBehaviour
         player = GetComponent<Transform>();
         currentShootAngle = 0f;
         transitionSpeed = 15f;
+
+        bullets = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
         RotateAimLine();
+
+        bulletCurrentCooldown -= Time.deltaTime * cooldownMultiplier;
+        if (bulletCurrentCooldown < 0)
+        {
+            bulletCurrentCooldown = 0f;
+        }
     }
 
     public void DebugDrawLine(Vector3 fromPosition, Vector2 mouseClickPosition)
@@ -166,15 +180,6 @@ public class ShootController : MonoBehaviour
         }
     }
 
-    IEnumerator MoveCoroutine(Vector3 toPosition)
-    {
-        while (!CloseTo(player.position, toPosition))
-        {
-            Vector3.Lerp(player.position, toPosition, transitionSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
     IEnumerator moveObject(Vector3 toPosition, float distanceMultiplier)
     {
         float totalMovementTime = 5f * distanceMultiplier; //the amount of time you want the movement to take
@@ -184,6 +189,24 @@ public class ShootController : MonoBehaviour
             currentMovementTime += Time.deltaTime;
             transform.localPosition = Vector3.Lerp(player.position, toPosition, currentMovementTime / totalMovementTime);
             yield return null;
+        }
+    }
+
+    public void ShootBullet()
+    {
+        if(bulletCurrentCooldown < bulletCooldownTime)
+        {
+            bulletCurrentCooldown += 2f;
+
+            GameObject bull = Instantiate(bullet, rotationPoint.transform.position, Quaternion.identity, this.transform);
+
+            bullets.Add(bull);
+
+            bull.GetComponent<BulletController>().AddForce(currentShootAngle);
+        }
+        else
+        {
+            Debug.Log("Wait a bietjie my bru");
         }
     }
 }

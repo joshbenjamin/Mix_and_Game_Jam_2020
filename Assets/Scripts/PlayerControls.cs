@@ -78,12 +78,20 @@ public class PlayerControls : MonoBehaviour
         #endregion
 
         #region Mouse
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             Vector2 mouseClickPosition = Input.mousePosition;
 
-            shootController.DebugDrawLine(player.position, mouseClickPosition);
+            //shootController.DebugDrawLine(player.position, mouseClickPosition);
+            shootController.DrawRaycast();
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            shootController.ShootBullet();
+        }
+
+
         #endregion
     }
 
