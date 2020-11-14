@@ -18,6 +18,8 @@ public class ShootController : MonoBehaviour
     private float currentShootAngle;
     private float transitionSpeed;
 
+    public EnemySpawner enemySpawner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,15 +86,6 @@ public class ShootController : MonoBehaviour
                     break;
             }
         }
-
-        /*
-        RaycastHit2D hit;
-        Debug.DrawRay(transform.position, , 0), Color.blue);
-        if (Physics2D.Raycast(player.position, new Vector3(Mathf.Cos(currentShootAngle), Mathf.Sin(currentShootAngle), 0), out hit))
-        {
-            Debug.Log("Has been hit: " + hit.collider.gameObject.name);
-        }
-        */
     }
 
     private Vector3 WorldPoint(float x, float y)
@@ -132,30 +125,6 @@ public class ShootController : MonoBehaviour
 
     void LaunchPlayer(Vector2 toPosition, float distanceMultiplier)
     {
-        //player.GetComponentInParent<Rigidbody2D>().gravityScale;
-        //player.position = Vector3.Lerp(player.position, toPosition, Time.deltaTime * transitionSpeed * distanceMultiplier);
-
-        //float step = transitionSpeed * Time.deltaTime;
-        //player.position = Vector3.MoveTowards(player.position, toPosition, step);
-
-
-        //player.position = toPosition;
-
-        /*
-        bool notThereYet = true;
-        while (notThereYet)
-        {
-            float step = transitionSpeed * Time.deltaTime;
-            player.position = Vector3.MoveTowards(player.position, toPosition, step);
-
-            if (CloseTo(player.position, toPosition))
-            {
-                notThereYet = false;
-            }
-        }
-        */
-
-        //StartCoroutine(MoveCoroutine(toPosition));
         float extraDist = 3f;
 
         Vector3 newTo = new Vector3(toPosition.x + Mathf.Cos(currentShootAngle * Mathf.Deg2Rad) * extraDist,
@@ -208,5 +177,17 @@ public class ShootController : MonoBehaviour
         {
             Debug.Log("Wait a bietjie my bru");
         }
+    }
+
+    public void DestroyBullet(GameObject bullet)
+    {
+        bullets.Remove(bullet);
+        Destroy(bullet.gameObject);
+    }
+
+    public void DestroyEnemy(GameObject bullet, GameObject enemy)
+    {
+        enemySpawner.DestroyEnemy(enemy);
+        Destroy(bullet.gameObject);
     }
 }

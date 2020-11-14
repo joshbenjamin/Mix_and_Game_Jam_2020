@@ -12,11 +12,16 @@ public class BulletController : MonoBehaviour
 
     private float power = 10f;
 
+    private ShootController shootController;
+    //public EnemySpawner enemySpawner;
+
     // Start is called before the first frame update
     void Start()
     {
         collider = GetComponent<CircleCollider2D>();
         //body = GetComponent<Rigidbody2D>();
+
+        shootController = GetComponentInParent<ShootController>();
     }
 
     // Update is called once per frame
@@ -29,8 +34,13 @@ public class BulletController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Platform")
         {
+            shootController.DestroyBullet(collision.gameObject);
             Debug.Log("Hit a platform");
-            Destroy(this.gameObject);
+        }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+            shootController.DestroyEnemy(this.gameObject, collision.gameObject);
+            //Destroy(collision.gameObject);
         }
     }
 
