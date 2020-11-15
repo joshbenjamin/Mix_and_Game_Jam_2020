@@ -25,9 +25,10 @@ public class EnemyBulletController : MonoBehaviour
         }
     }
 
-    public void AddForce(Vector2 force)
+    public void AddForce(float shotSpeed, float angle)
     {
-        body.AddForce(force, ForceMode2D.Impulse);
+        body.AddForce(new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), -Mathf.Sin(angle * Mathf.Deg2Rad)) * shotSpeed, ForceMode2D.Impulse);
+        //body.AddForce(force, ForceMode2D.Impulse);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

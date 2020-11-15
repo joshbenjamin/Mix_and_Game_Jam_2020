@@ -7,6 +7,7 @@ public class ShootController : MonoBehaviour
     private Camera cam;
 
     private Transform player;
+    public Rigidbody2D body;
     public GameObject rotationPoint;
 
     public GameObject bullet;
@@ -73,16 +74,16 @@ public class ShootController : MonoBehaviour
             switch (hit.collider.gameObject.tag)
             {
                 case "Platform":
-                    Debug.Log("Hit platform");
+                    Vector2 startPoint = hit.point;
+
+                    float distance = Vector2.Distance(player.position, startPoint);
+                    LaunchPlayer(startPoint, distance);
                     break;
 
                 case "PlatformGap":
-                    Debug.Log("Found gap");
-                    Vector2 startPoint = hit.point;
-                    Debug.Log("Starts at: " + startPoint + "\n" + 
-                              "Angle at: " + currentShootAngle);
+                    startPoint = hit.point;
 
-                    float distance = Vector2.Distance(player.position, startPoint);
+                    distance = Vector2.Distance(player.position, startPoint);
                     LaunchPlayer(startPoint, distance);
 
                     break;
@@ -131,7 +132,7 @@ public class ShootController : MonoBehaviour
 
     void LaunchPlayer(Vector2 toPosition, float distanceMultiplier)
     {
-        float extraDist = 3f;
+        float extraDist = 5f;
 
         Vector3 newTo = new Vector3(toPosition.x + Mathf.Cos(currentShootAngle * Mathf.Deg2Rad) * extraDist,
             toPosition.y + Mathf.Sin(currentShootAngle * Mathf.Deg2Rad) * extraDist,
@@ -157,14 +158,20 @@ public class ShootController : MonoBehaviour
 
     IEnumerator moveObject(Vector3 toPosition, float distanceMultiplier)
     {
-        float totalMovementTime = 5f * distanceMultiplier; //the amount of time you want the movement to take
-        float currentMovementTime = 0f;//The amount of time that has passed
+        float totalMovementTime = 5f * distanceMultiplier;
+        float currentMovementTime = 0f;
         while (!CloseTo(player.position, toPosition))
         {
             currentMovementTime += Time.deltaTime;
             transform.localPosition = Vector3.Lerp(player.position, toPosition, currentMovementTime / totalMovementTime);
             yield return null;
         }
+    }
+
+    public void Jump(float power)
+    {
+        float jumpMulitplier = 20f;
+        body.AddForce(new Vector2(Mathf.Cos(currentShootAngle * Mathf.Deg2Rad), Mathf.Sin(currentShootAngle * Mathf.Deg2Rad)) * power * jumpMulitplier, ForceMode2D.Impulse);
     }
 
     public void ShootBullet()
@@ -195,6 +202,12 @@ public class ShootController : MonoBehaviour
     {
         score += 1;
         textController.SetScore(score);
+
+        GameObject[] enemyBullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+        foreach (GameObject bul in enemyBullets)
+        {
+            Destroy(bul);
+        }
 
         enemySpawner.DestroyEnemy(enemy);
         Destroy(bullet.gameObject);

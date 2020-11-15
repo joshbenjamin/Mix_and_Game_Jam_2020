@@ -34,7 +34,7 @@ public class BulletController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Platform")
         {
-            shootController.DestroyBullet(collision.gameObject);
+            shootController.DestroyBullet(this.gameObject);
         }
         else if (collision.gameObject.tag == "Enemy")
         {

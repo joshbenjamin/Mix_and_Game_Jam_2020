@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
 
     private float timeLastShot = 0f;
     private float shootEvery;
+    private float shotSpeed;
     public GameObject enemyBullet;
     public Transform shotPosition;
 
@@ -26,6 +27,7 @@ public class EnemyController : MonoBehaviour
     {
         startPosition = enemy.position;
 
+        shotSpeed = Random.Range(5f, 10f);
         shootEvery = Random.Range(1f, 2f);
 
         int horiz = Random.Range(0, 2);
@@ -100,9 +102,12 @@ public class EnemyController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("PlayerObject");
         Vector3 playerPos = player.transform.position;
 
-        Vector3 shotDirection = playerPos - shotPosition.position;
-        Debug.DrawLine(shotPosition.position, playerPos, Color.white, 2f);
-        GameObject enBul = Instantiate(enemyBullet, shotPosition.position, Quaternion.identity);
-        enBul.GetComponent<EnemyBulletController>().AddForce(shotDirection);
+        if (playerPos.y <= shotPosition.position.y)
+        {
+            Vector2 diference = playerPos - shotPosition.position;
+            float angle = Vector2.Angle(Vector2.right, diference);
+            GameObject enBul = Instantiate(enemyBullet, shotPosition.position, Quaternion.identity);
+            enBul.GetComponent<EnemyBulletController>().AddForce(shotSpeed, angle);
+        }   
     }
 }

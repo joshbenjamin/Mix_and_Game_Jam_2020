@@ -12,6 +12,9 @@ public class PlayerControls : MonoBehaviour
 
     private float movementMultiple = 4f;
 
+    private float jumpPower = 0f;
+    private float maxJumpPower = 1.5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,7 @@ public class PlayerControls : MonoBehaviour
     {
         CheckControls();
         Movement();
+        Shake();
     }
 
     void CheckControls()
@@ -85,7 +89,17 @@ public class PlayerControls : MonoBehaviour
             Vector2 mouseClickPosition = Input.mousePosition;
 
             //shootController.DebugDrawLine(player.position, mouseClickPosition);
-            shootController.DrawRaycast();
+            //shootController.DrawRaycast();
+        }
+        if (Input.GetMouseButton(1))
+        {
+            jumpPower += Time.deltaTime;
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            jumpPower = Mathf.Min(jumpPower, maxJumpPower);
+            shootController.Jump(jumpPower);
+            jumpPower = 0f;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -105,5 +119,10 @@ public class PlayerControls : MonoBehaviour
         float xMovement = Input.GetAxis("Horizontal");
 
         player.localPosition = new Vector3((player.localPosition.x + (xMovement * movementMultiple * Time.deltaTime)), player.localPosition.y, 0);
+    }
+
+    void Shake()
+    {
+
     }
 }
