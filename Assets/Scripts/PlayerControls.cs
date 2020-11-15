@@ -42,7 +42,7 @@ public class PlayerControls : MonoBehaviour
         #region Creation/Deletion
         if (Input.GetKeyDown(KeyCode.RightAlt))
         {
-            _platformSpawner.SpawnPlatform();
+            _platformSpawner.SpawnPlatform(-2);
         }
 
         if (Input.GetKeyDown(KeyCode.RightControl))

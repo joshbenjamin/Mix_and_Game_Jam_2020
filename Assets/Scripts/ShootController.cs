@@ -26,6 +26,8 @@ public class ShootController : MonoBehaviour
 
     public PowerBarController barController;
 
+    public PlatformSpawner platformSpawner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -218,5 +220,17 @@ public class ShootController : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Vector3 position = collision.gameObject.transform.position;
+
+        if(position.y < player.position.y)
+        {
+            enemySpawner
+            //platformSpawner.TriggerSpawn(position);
+        }
+        Debug.Log("Gone through the gap");
     }
 }

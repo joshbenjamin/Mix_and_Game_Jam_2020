@@ -21,21 +21,22 @@ public class EnemySpawner : MonoBehaviour
         enemies = new List<GameObject>();
         dieSound = GetComponent<AudioSource>();
 
-        SpawnEnemy();
+        //SpawnEnemy();
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if(enemies.Count == 0)
         {
             SpawnEnemy();
         }
+        */
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(Vector3 spawnPosition)
     {
-        Vector3 spawnPosition = GetSpawnPoint();
 
         GameObject ene = Instantiate(enemy, spawnPosition, Quaternion.identity, this.transform);
         enemies.Add(ene);
@@ -51,5 +52,14 @@ public class EnemySpawner : MonoBehaviour
         dieSound.Play();
         enemies.Remove(enemy);
         Destroy(enemy);
+    }
+
+    public void TriggerSpawn(float minY, float maxY)
+    {
+        float randX = Random.Range(-8f, 8f);
+        float randY = Random.Range(minY + 1, maxY - 1);
+        Vector3 point = new Vector3(randX, randY, 0);
+
+        SpawnEnemy(point);
     }
 }

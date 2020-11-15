@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlatformSizer : MonoBehaviour
 {
-    public Camera _cam;
+    private Camera _cam;
 
     private Transform shapeRect;
     private Vector3 currentScale;
