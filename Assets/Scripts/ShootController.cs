@@ -15,6 +15,7 @@ public class ShootController : MonoBehaviour
     private float bulletCurrentCooldown = 0f;
     private float bulletCooldownTime = 10f;
     private float cooldownMultiplier = 4f;
+    public AudioSource pew;
 
     private float currentShootAngle;
     private float transitionSpeed;
@@ -170,7 +171,7 @@ public class ShootController : MonoBehaviour
 
     public void Jump(float power)
     {
-        float jumpMulitplier = 20f;
+        float jumpMulitplier = 10f;
         body.AddForce(new Vector2(Mathf.Cos(currentShootAngle * Mathf.Deg2Rad), Mathf.Sin(currentShootAngle * Mathf.Deg2Rad)) * power * jumpMulitplier, ForceMode2D.Impulse);
     }
 
@@ -180,6 +181,7 @@ public class ShootController : MonoBehaviour
         {
             bulletCurrentCooldown += 2f;
 
+            pew.Play();
             GameObject bull = Instantiate(bullet, rotationPoint.transform.position, Quaternion.identity, this.transform);
 
             bullets.Add(bull);

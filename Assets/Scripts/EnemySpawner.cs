@@ -9,6 +9,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     private List<GameObject> enemies;
 
+    private AudioSource dieSound;
+
     //private Collider2D collider;
 
     // Start is called before the first frame update
@@ -17,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
         cam = Camera.main;
 
         enemies = new List<GameObject>();
+        dieSound = GetComponent<AudioSource>();
 
         SpawnEnemy();
     }
@@ -45,6 +48,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void DestroyEnemy(GameObject enemy)
     {
+        dieSound.Play();
         enemies.Remove(enemy);
         Destroy(enemy);
     }

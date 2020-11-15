@@ -15,6 +15,8 @@ public class PlayerControls : MonoBehaviour
     private float jumpPower = 0f;
     private float maxJumpPower = 1.5f;
 
+    private AudioSource powerUpSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,8 @@ public class PlayerControls : MonoBehaviour
 
         shootController = GetComponent<ShootController>();
         healthController = GetComponent<HealthController>();
+
+        powerUpSound = GetComponentInChildren<AudioSource>();
     }
 
     // Update is called once per frame
@@ -93,11 +97,18 @@ public class PlayerControls : MonoBehaviour
         }
         if (Input.GetMouseButton(1))
         {
+            if (!powerUpSound.isPlaying)
+            {
+                powerUpSound.Play();
+            }
             jumpPower += Time.deltaTime;
+            jumpPower = Mathf.Min(jumpPower, maxJumpPower);
+
+            powerUpSound.pitch = jumpPower;
         }
         if (Input.GetMouseButtonUp(1))
         {
-            jumpPower = Mathf.Min(jumpPower, maxJumpPower);
+            powerUpSound.Stop();
             shootController.Jump(jumpPower);
             jumpPower = 0f;
         }

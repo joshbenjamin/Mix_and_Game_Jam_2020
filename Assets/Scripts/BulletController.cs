@@ -43,6 +43,7 @@ public class BulletController : MonoBehaviour
         }
         else if(collision.gameObject.tag == "EnemyBullet")
         {
+            shootController.DestroyBullet(this.gameObject);
             collision.gameObject.GetComponent<EnemyBulletController>().Die();
         }
     }

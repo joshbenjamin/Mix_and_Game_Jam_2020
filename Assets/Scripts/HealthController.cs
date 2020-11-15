@@ -10,9 +10,12 @@ public class HealthController : MonoBehaviour
     private float defenseMultiplier = 0.8f;
 
     public HealthBarController healthBarController;
+    public AudioSource hitSound;
 
     public void TakeDamage(float dmg)
     {
+        hitSound.Play();
+
         currentHealth -= dmg * defenseMultiplier;
 
         if (currentHealth <= 0f)
