@@ -48,6 +48,7 @@ public class BulletController : MonoBehaviour
         }
         else if(collision.gameObject.tag == "Ball")
         {
+            shootController.Win();
             Debug.Log("You win");
         }
     }

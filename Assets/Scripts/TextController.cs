@@ -37,4 +37,14 @@ public class TextController : MonoBehaviour
     {
         return text.text;
     }
+
+    public void Win()
+    {
+        text.text = "YOU WIN MOTHERFUCKER";
+    }
+
+    public void JustCall()
+    {
+
+    }
 }

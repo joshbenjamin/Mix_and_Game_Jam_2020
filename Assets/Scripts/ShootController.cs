@@ -242,4 +242,9 @@ public class ShootController : MonoBehaviour
         }
         Debug.Log("Gone through the gap");
     }
+
+    public void Win()
+    {
+        textController.Win();
+    }
 }
