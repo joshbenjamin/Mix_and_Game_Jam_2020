@@ -28,6 +28,8 @@ public class ShootController : MonoBehaviour
 
     public PlatformSpawner platformSpawner;
 
+    private HealthController healthController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,8 @@ public class ShootController : MonoBehaviour
         transitionSpeed = 15f;
 
         bullets = new List<GameObject>();
+
+        healthController = GetComponent<HealthController>();
     }
 
     // Update is called once per frame
@@ -112,9 +116,13 @@ public class ShootController : MonoBehaviour
         float sign = (toPosition.y < fromPosition.y) ? -1.0f : 1.0f;
         float angle = Vector2.Angle(Vector2.right, diference) * sign;
 
-        float passedAngle = ClipAngle(angle);
-        currentShootAngle = passedAngle;
-        rotationPoint.transform.eulerAngles = new Vector3(0, 0, passedAngle);
+        // To clip to 180 degrees only
+        //float passedAngle = ClipAngle(angle);
+        //currentShootAngle = passedAngle;
+        currentShootAngle = angle;
+
+        //rotationPoint.transform.eulerAngles = new Vector3(0, 0, passedAngle);
+        rotationPoint.transform.eulerAngles = new Vector3(0, 0, angle);
     }
 
     float ClipAngle(float f)
@@ -205,7 +213,8 @@ public class ShootController : MonoBehaviour
     public void DestroyEnemy(GameObject bullet, GameObject enemy)
     {
         score += 1;
-        textController.SetScore(score);
+        //textController.SetScore(score);
+        textController.WeScore();
 
         GameObject[] enemyBullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
         foreach (GameObject bul in enemyBullets)
@@ -228,7 +237,7 @@ public class ShootController : MonoBehaviour
 
         if(position.y < player.position.y)
         {
-            enemySpawner
+            //enemySpawner.TriggerSpawn(player.position.y, player.position.y + 4f);
             //platformSpawner.TriggerSpawn(position);
         }
         Debug.Log("Gone through the gap");

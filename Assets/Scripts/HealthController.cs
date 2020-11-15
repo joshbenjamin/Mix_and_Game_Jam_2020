@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour
 {
-    private float currentHealth = 100f;
-    private float maxHealth = 100f;
+    private float currentHealth = 110f;
+    private float maxHealth = 110f;
 
-    private float defenseMultiplier = 0.8f;
+    private float defenseMultiplier = 1f;
+
+    private float theirScore = 0f;
 
     public HealthBarController healthBarController;
     public AudioSource hitSound;
+
+    public TextController textController;
 
     public void TakeDamage(float dmg)
     {
@@ -18,12 +23,16 @@ public class HealthController : MonoBehaviour
 
         currentHealth -= dmg * defenseMultiplier;
 
-        if (currentHealth <= 0f)
+        theirScore += 1;
+
+        if (currentHealth <= 0f || theirScore == 11)
         {
             Die();
         }
 
         healthBarController.ScaleBar(currentHealth);
+
+        textController.TheyScore();
     }
 
     void Die()

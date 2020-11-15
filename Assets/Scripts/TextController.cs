@@ -8,8 +8,33 @@ public class TextController : MonoBehaviour
 {
     public TMP_Text text;
 
-    public void SetScore(int score)
+    private int ourGoals = 0;
+    private int theirGoals = 0;
+
+    private void Start()
     {
-        text.text = score+"";
+        SetScore();
+    }
+
+    public void WeScore()
+    {
+        ourGoals += 1;
+        SetScore();
+    }
+
+    public void TheyScore()
+    {
+        theirGoals += 1;
+        SetScore();
+    }
+
+    public void SetScore()
+    {
+        text.text = ourGoals + " - " + theirGoals;
+    }
+
+    public string GetScore()
+    {
+        return text.text;
     }
 }

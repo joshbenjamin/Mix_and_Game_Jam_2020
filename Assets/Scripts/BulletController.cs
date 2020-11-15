@@ -46,6 +46,10 @@ public class BulletController : MonoBehaviour
             shootController.DestroyBullet(this.gameObject);
             collision.gameObject.GetComponent<EnemyBulletController>().Die();
         }
+        else if(collision.gameObject.tag == "Ball")
+        {
+            Debug.Log("You win");
+        }
     }
 
     public void AddForce(float angle)

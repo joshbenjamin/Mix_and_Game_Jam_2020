@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyBulletController : MonoBehaviour
 {
     public Rigidbody2D body;
-    private float damage = 20f;
+    private float damage = 10f;
     private float currentTime = 0f;
-    private float timeToDie = 2f;
+    private float timeToDie = 4f;
 
     // Start is called before the first frame update
     void Start()

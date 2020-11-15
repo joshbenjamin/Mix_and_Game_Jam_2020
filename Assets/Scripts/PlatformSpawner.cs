@@ -24,6 +24,7 @@ public class PlatformSpawner : MonoBehaviour
         //SpawnPlatform(-2);
 
         alreadyPlatforms = new List<GameObject>(GameObject.FindGameObjectsWithTag("PlatformGroup"));
+        alreadyPlatforms.AddRange(GameObject.FindGameObjectsWithTag("Platform"));
         SortList();
     }
 
